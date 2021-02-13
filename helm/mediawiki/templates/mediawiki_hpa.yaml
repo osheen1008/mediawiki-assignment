@@ -1,0 +1,15 @@
+{{ $mediawiki := .Values.mediawiki }}
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ $mediawiki.name }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ $mediawiki.name }}
+  minReplicas: {{ $mediawiki.minReplicas }}
+  maxReplicas: {{ $mediawiki.maxReplicas }}
+  metrics:
+  {{- toYaml $mediawiki.hpa | nindent 2 }}
+

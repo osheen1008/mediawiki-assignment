@@ -3,6 +3,9 @@
 **NOTE**
 
 The following repository is for Learning purpose.
+The Dockerfile is not fully functional. It is deployable but some configuration is not right.
+The helm code is fully functional and can be executed easily.
+Helm code works successfully with custom docker image as well as pre-existing docker images.
 
 ---
 
@@ -37,3 +40,17 @@ All the properties of mediawiki are defined under mediawiki map in values.yaml a
   - mariadb.secrets.password : MySQL password
   
   ---
+
+#### Saling 
+  Each deployment has its own hpa which scales automaticalling when the CPU utilization crosses 60%. One can further customize it using following properties.
+
+  ---
+  - mediawiki.hpa
+  - mediawiki.minReplicas
+  - mediawiki.maxReplicas
+  - mariadb.hpa
+  - mariadb.minReplicas
+  - mariadb.maxReplicas
+
+  ---
+

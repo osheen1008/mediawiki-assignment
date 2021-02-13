@@ -1,10 +1,4 @@
 FROM centos/httpd
-# FROM centos
-
-# /usr/sbin/httpd -DFOREGROUND
-# /bin/mysqld_safe --initialize 
-# mysql_install_db
-# /usr/bin/mysqld_safe
 
 ## Installing libraries and packages
 RUN yum update -y && \
@@ -38,11 +32,7 @@ RUN cd /var/www && \
 # RUN /bin/mysqld_safe --initialize && \
 RUN mysql_install_db && \
     chown -R mysql:mysql /var/lib/mysql && /bin/mysqld_safe --nowatch
-#/var/run/mysqld
-# /var/log/mariadb/mariadb.log
-RUN echo '' > tail
-# RUN /usr/sbin/httpd -k start
+
 EXPOSE 80
-# CMD /bin/mysqld_safe --nowatch && httpd -D FOREGROUND
+
 ENTRYPOINT ["httpd", "-D", "FOREGROUND"]
-# ENTRYPOINT ["tail", "-f", "tail"]

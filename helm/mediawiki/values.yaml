@@ -1,14 +1,14 @@
-# Default values for mediawiki.
+# Default values.
 
 mediawiki:
   name: mediawiki
   replicaCount: 1
   minReplicas: 1
-  maxReplicas: 1
+  maxReplicas: 2
   image:
-    # repository: mediawiki
+    repository: mediawiki
     # repository: bitnami/apache-exporter
-    repository: gcr.io/independent-bay-299305/mediawiki 
+    # repository: gcr.io/independent-bay-299305/mediawiki 
     tag: v2
     pullPolicy: IfNotPresent
   ports:
@@ -36,7 +36,6 @@ mediawiki:
         type: Utilization
         averageUtilization: 60
   
-
   service:
     type: LoadBalancer #ClusterIP
     ports:
@@ -49,6 +48,8 @@ mediawiki:
 mariadb:
   name: mariadb
   replicaCount: 1
+  minReplicas: 1
+  maxReplicas: 2
   image:
     repository: mariadb
     tag: latest
@@ -69,13 +70,6 @@ mariadb:
     path: /var/lib/mysql
     size: 10Gi
   env:
-  # - name: 
-  # - name: MYSQL_DATABASE
-  #   value: my_wiki
-  # - name: MYSQL_USER
-  #   value: wikiuser
-  # - name: MYSQL_PASSWORD
-  #   value: example
   - name: MYSQL_RANDOM_ROOT_PASSWORD
     value: 'yes'
   secrets:
@@ -89,21 +83,4 @@ mariadb:
     ports:
     - targetPort: 3306
       port: 3306
-
-
-
-ingress:
-  enabled: false
-  annotations:
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
-
 
