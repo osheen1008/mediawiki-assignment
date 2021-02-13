@@ -42,7 +42,7 @@ All the properties of mediawiki are defined under mediawiki map in values.yaml a
   ---
 
 #### Saling 
-  Each deployment has its own hpa which scales automaticalling when the CPU utilization crosses 60%. One can further customize it using following properties.
+  Each deployment has its own hpa which scales up and down when the CPU utilization crosses 60%. One can further customize it using following properties.
 
   ---
   - mediawiki.hpa
