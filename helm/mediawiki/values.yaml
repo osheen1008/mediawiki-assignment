@@ -77,6 +77,13 @@ mariadb:
     user: wikiuser
     password: example
     random_root_password: 'yes'
+  hpa:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60
 
   service:
     type: ClusterIP
