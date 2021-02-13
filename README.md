@@ -14,7 +14,7 @@ The complete code is divided into 2 parts:
 - helm deployment
 
 ## Docker build
-As a part of successful deployment, docker build and push is necessary.
+As a part of successful deployment, docker build and push is necessary in the repository of interest.
 
 ## helm deployment
 
@@ -30,6 +30,11 @@ All the properties of mediawiki are defined under mediawiki map in values.yaml a
   
 #### Upgrading chart
   _helm upgrade <release_name> helm/mediawiki -f <optional-custom-values.yaml>_
+
+#### Passing custom buit image
+  One can pass custom built image of mediawiki by updating below values:
+  - mediawiki.image.repository
+  - mediawiki.image.tag
   
 #### Passing secrets
   Secrets are defined under _mariadb.secrets_ which can be overridden by passing custom values at the time of creation. All the secret properties are defined below:
