@@ -9,7 +9,7 @@ mediawiki:
     repository: mediawiki
     # repository: bitnami/apache-exporter
     # repository: gcr.io/independent-bay-299305/mediawiki 
-    tag: v2
+    tag: latest
     pullPolicy: IfNotPresent
   ports:
   - name: http
@@ -34,7 +34,7 @@ mediawiki:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 60
+        averageUtilization: 10
   
   service:
     type: LoadBalancer #ClusterIP
