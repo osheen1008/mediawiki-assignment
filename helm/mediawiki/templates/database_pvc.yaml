@@ -1,0 +1,18 @@
+{{- $root := . }}
+{{- $mediawiki := .Values.mariadb }}
+{{- range $mediawiki.volumes }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- include "mariadb.labels" $root | nindent 4 }}
+spec:
+  accessModes:
+  {{- range .accessmodes }}
+  - {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .size | quote }}
+{{- end }}

@@ -1,0 +1,15 @@
+{{ $root := . }}
+{{ $mediawiki := .Values.mariadb }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $mediawiki.name }}
+  labels:
+    {{- include "mariadb.labels" $root | nindent 4 }}
+spec:
+  type: {{ $mediawiki.service.type }}
+  ports:
+{{- toYaml $mediawiki.service.ports | nindent 4 }}
+  selector:
+    {{- include "mariadb.selectorLabels" $root | nindent 4 }}
+---

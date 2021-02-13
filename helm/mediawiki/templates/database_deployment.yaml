@@ -1,0 +1,61 @@
+{{ $root := . }}
+{{ $mediawiki := .Values.mariadb }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $mediawiki.name }}
+  labels:
+    {{- include "mariadb.labels" $root | nindent 4 }}
+    
+spec:
+  replicas: {{ $mediawiki.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "mariadb.selectorLabels" $root | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "mariadb.selectorLabels" $root | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ $mediawiki.name }}
+          image: "{{ $mediawiki.image.repository }}:{{ $mediawiki.image.tag }}"
+          imagePullPolicy: {{ $mediawiki.image.pullPolicy }}
+          ports:
+            {{- toYaml $mediawiki.ports | nindent 12 }}
+          resources:
+            {{- toYaml $mediawiki.resources | nindent 12 }}
+          
+          env:
+          - name: PROJECT
+            value: pro1
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: {{ $mediawiki.name }}
+                key: database
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ $mediawiki.name }}
+                key: user
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ $mediawiki.name }}
+                key: password
+          {{- if $mediawiki.env }}
+          {{- toYaml $mediawiki.env | nindent 10 }}
+          {{- end }}
+          volumeMounts:
+          {{- range $mediawiki.volumes }}
+          - mountPath: {{ .path }}
+            name: {{ .name }}
+          {{- end }}
+
+      volumes:
+      {{- range $mediawiki.volumes }}
+      - name: {{ .name }}
+        persistentVolumeClaim:
+          claimName: {{ .name }}
+      {{- end }}
